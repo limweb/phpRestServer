@@ -1,0 +1,25 @@
+{
+    "name": "servit/restserver",
+    "type": "library",
+    "description": "php rest server for very light-weight REST APIs",
+    "keywords": ["php", "rest", "rest-server", "light-weight", "http", "json", "mit"],
+    "homepage": "https://github.com/limweb/phpRestServer",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Thongchai Lim",
+            "email": "lim.thongchai@gmail.com",
+            "homepage": "http://www.shopsthai.com",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.4"
+    },
+    "autoload": {
+        "psr-0": {
+            "Servit\\RestServer": "src/"
+        }
+    }
+}
