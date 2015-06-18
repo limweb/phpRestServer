@@ -1,4 +1,4 @@
-<?php  namespace Rest;
+<?php
 //============================= Server Start ========================================================
 class RestfulServer {
 
@@ -199,16 +199,47 @@ class RestfulServer {
         }
 
         protected function routes() {
-            echo '<br>';
-            echo '-----------------------'.get_class($this).'----------------------------------<br>';
-            echo  'get =============> ',get_class($this),'.php<br>';
-            echo  'get routes =========> ',get_class($this),'.php/routes  this<br>';
-            echo  'get by id= =========> ',get_class($this),'.php/show/$id<br>';
-            echo  'put =============> ',get_class($this),'.php/$id  & object json<br>';
-            echo  'post ============> ',get_class($this),'.php & object json<br>';
-            echo  'post search =======> ',get_class($this),'.php/search & object json<br>';
-            echo  'delete ===========>',get_class($this),'.php/$id<br>';
-            echo '-----------------------'.get_class($this).'----------------------------------<br>';
+            $html = '<table width="600" border="1">
+                    <tr>
+                     <th align="center" width ="20">No</th>
+                     <th align="center"width ="80">Type</th>
+                     <th align="left" width="250">&nbsp;&nbsp;Path</th>
+                     <th align="left" width="250">&nbsp;&nbsp;Method</th>
+                   </tr><tbody>';
+    
+           $i = 1;
+            foreach ($this->methodget as $method) {
+                        $method = (object) $method;
+                    $html .=  '<tr><td align="center">'.$i.'</td><td align="center">GET</td><td align="left">&nbsp;&nbsp;/'.$method->path.'</td><td align="left">&nbsp;&nbsp;'.$method->method.'</td></tr>';
+                    $i++;
+            }
+            foreach ($this->methodput as $method) {
+                        $method = (object) $method;
+                    $html .=  '<tr><td align="center">'.$i.'</td><td align="center">PUT</td><td align="left">&nbsp;&nbsp;/'.$method->path.'</td><td align="left">&nbsp;&nbsp;'.$method->method.'</td></tr>';
+                    $i++;
+            }
+            foreach ($this->methodpost as $method) {
+                        $method = (object) $method;
+                    $html .=  '<tr><td align="center">'.$i.'</td><td align="center">POST</td><td align="left">&nbsp;&nbsp;/'.$method->path.'</td><td align="left">&nbsp;&nbsp;'.$method->method.'</td></tr>';
+                    $i++;
+            }
+            foreach ($this->methoddelete as $method) {
+                        $method = (object) $method;
+                    $html .=  '<tr><td align="center">'.$i.'</td><td align="center">DELETE</td><td align="left">&nbsp;&nbsp;/'.$method->path.'</td><td align="left">&nbsp;&nbsp;'.$method->method.'</td></tr>';
+                    $i++;
+            }
+            $html .= '</tbody></table>';
+            // echo '<br>';
+            // echo '-----------------------'.get_class($this).'----------------------------------<br>';
+            // echo  'get =============> ',get_class($this),'.php<br>';
+            // echo  'get routes =========> ',get_class($this),'.php/routes  this<br>';
+            // echo  'get by id= =========> ',get_class($this),'.php/show/$id<br>';
+            // echo  'put =============> ',get_class($this),'.php/$id  & object json<br>';
+            // echo  'post ============> ',get_class($this),'.php & object json<br>';
+            // echo  'post search =======> ',get_class($this),'.php/search & object json<br>';
+            // echo  'delete ===========>',get_class($this),'.php/$id<br>';
+            // echo '-----------------------'.get_class($this).'----------------------------------<br>';
+            echo $html;
         }
 
         protected  function deliver_response($format=null, $api_response){
