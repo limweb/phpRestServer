@@ -107,16 +107,15 @@ class RestfulServer {
          $func  = filter_input(INPUT_GET, 'method', FILTER_SANITIZE_SPECIAL_CHARS);
                             // ($func ? :$func = 'hello');
                               // echo 'this class = ',get_class($this),"\n";
-         if(get_class($this) == 'RestfulServer' ) { 
-           echo  'Restful Server v.0.0.1',"\n<br>";
-           echo  '--------------------------------',"\n<br>";
-           echo  '  class   YourService extends RestfulServer  {',"\n<br>";
-           echo  '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---- you function ----',"\n<br>";
-           echo  '  } ',"\n<br>";
-           echo  ' $app = new YourService();',"\n<br>";
-           echo  ' $app->run()',"\n<br>";
-           echo  '--------------------------------',"\n<br>";
-
+         if(  get_class($this) == 'RestfulServer' ) { 
+               echo  'Restful Server v.0.0.1',"\n<br>";
+               echo  '--------------------------------',"\n<br>";
+               echo  '  class   YourService extends RestfulServer  {',"\n<br>";
+               echo  '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---- you function ----',"\n<br>";
+               echo  '  } ',"\n<br>";
+               echo  ' $app = new YourService();',"\n<br>";
+               echo  ' $app->run()',"\n<br>";
+               echo  '--------------------------------',"\n<br>";
         } else  {
 
             // print_r($this->methodget);
@@ -151,7 +150,11 @@ class RestfulServer {
                         return;
                     }
                 }
-                $this->rest_error(-1,'Error: '.$this->request[0].' method not found.','');
+                if($this->request[0]){
+                    $this->update($this->request[0]);
+                } else {
+                    $this->rest_error(-1,'Error: '.$this->request[0].' method not found.','');
+                }
                 break;
                 case 'POST':
                 foreach ($this->methodpost as $post) {
@@ -169,10 +172,15 @@ class RestfulServer {
                     $delete =(object) $delete;
                     if(strtolower($delete->path) == strtolower($this->request[0])){
                         array_shift($this->request);
-                        call_user_func_array([$this,$delete->method], $this->request );            }
-                        return;
+                            call_user_func_array([$this,$delete->method], $this->request );
+                            return;
+                        }
                     }
-                $this->rest_error(-1,'Error: '.$this->request[0].' method not found.','');
+                if($this->request[0]){
+                    $this->destroy($this->request[0]);
+                } else {
+                    $this->rest_error(-1,'Error: '.$this->request[0].' method not found.','');
+                }
                 break;
                 case 'HEAD':
                     $this->rest_head();
@@ -189,7 +197,7 @@ class RestfulServer {
         }
 
 
-        public function rest_error($errno,$msg,$format=json){ 
+        public function rest_error($errno,$msg,$format='json'){ 
                 $this->response['code'] = 0;
                 $this->response['errno'] = $errno;
                 $this->response['status'] = $this->api_response_code[ $this->response['code'] ]['HTTP Response'];
